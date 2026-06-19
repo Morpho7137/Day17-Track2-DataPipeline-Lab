@@ -1,22 +1,9 @@
-# Reflection — Day 17 (≤ 200 words)
+# Reflection - Day 17 (<= 200 words)
 
-Answer briefly, in your own words. This is graded on reasoning, not length.
+1. The most silent failure is the trace-to-dataset step. If I mis-map successful vs failed turns, the eval set and DPO pairs still look valid but train the wrong behavior. I would detect it by comparing split counts, prompt overlap, and manual spot checks on a sample of traces.
 
-1. **The flywheel.** Day 13 emitted agent traces; today you turned them into an
-   eval set and DPO pairs that Day 22 will train on. Which step in
-   `traces → Bronze → datasets` would break most silently in production if you
-   got it wrong — and how would you detect it?
+2. If I skip decontamination, the model can memorize eval prompts and overstate quality. The metric leak shows up as a better offline score than the real holdout, then a drop when the same prompts are removed from training.
 
-2. **Decontamination.** Your run dropped 2 of 3 preference pairs because their
-   prompts were in the eval set. What concretely goes wrong if you *skip* this
-   step and train on those pairs? How would the lie show up in your metrics?
+3. A dangerous feature is current account balance in fraud or credit scoring. If I join the latest balance instead of the balance at event time, the row can include future activity and inflate performance.
 
-3. **Point-in-time.** The naive join leaked a future `lifetime_spend` into the
-   training row. Describe one feature in a system you know that would be
-   dangerous to join without an `ASOF`/point-in-time guard.
-
-4. **Graph vs vector.** From `kg_demo.py`, name one question the knowledge graph
-   answers well that flat chunk retrieval (`embed.py`) would struggle with, and
-   one where the graph is overkill.
-
-_Write your answers below._
+4. The graph answers multi-hop questions like which returnable product ships from Hanoi and which policy clause applies. Graph is overkill for a single policy lookup, where flat retrieval is enough.

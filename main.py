@@ -58,6 +58,8 @@ def main() -> dict:
         print(read_gold(con).to_string(index=False))
         return stats
     finally:
+        # Flush the WAL so verify.py can reopen the database immediately on Windows.
+        con.execute("CHECKPOINT")
         con.close()
 
 
